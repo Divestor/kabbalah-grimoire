@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kabbalistic Tree of Life Comparison</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #ffd700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+        
+        .tree-container {
+            position: relative;
+            width: 800px;
+            height: 900px;
+            margin: 0 auto;
+            background: radial-gradient(circle at center, rgba(255,215,0,0.1) 0%, transparent 70%);
+        }
+        
+        .sefira {
+            position: absolute;
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+        
+        .sefira:hover {
+            transform: scale(1.1);
+            z-index: 10;
+        }
+        
+        .sefira-name {
+            font-size: 14px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .sefira-hebrew {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        /* Sefira positions */
+        .keter { top: 20px; left: 330px; background: linear-gradient(135deg, #ffffff, #e6e6fa); color: #4a0080; border-color: #ffd700; }
+        .chokmah { top: 120px; left: 200px; background: linear-gradient(135deg, #87ceeb, #4682b4); color: #000080; border-color: #silver; }
+        .binah { top: 120px; right: 200px; background: linear-gradient(135deg, #2f4f4f, #696969); color: #f0f0f0; border-color: #8b0000; }
+        .daat { top: 200px; left: 330px; background: linear-gradient(135deg, #483d8b, #663399); color: #e6e6fa; border-color: #9400d3; border-style: dashed; }
+        .chesed { top: 280px; left: 150px; background: linear-gradient(135deg, #4169e1, #6495ed); color: #ffffff; border-color: #0000ff; }
+        .gevurah { top: 280px; right: 150px; background: linear-gradient(135deg, #dc143c, #b22222); color: #ffffff; border-color: #8b0000; }
+        .tiferet { top: 380px; left: 330px; background: linear-gradient(135deg, #ffd700, #ffb347); color: #8b4513; border-color: #ff8c00; }
+        .netzach { top: 480px; left: 200px; background: linear-gradient(135deg, #32cd32, #228b22); color: #ffffff; border-color: #006400; }
+        .hod { top: 480px; right: 200px; background: linear-gradient(135deg, #ff4500, #ff6347); color: #ffffff; border-color: #8b0000; }
+        .yesod { top: 580px; left: 330px; background: linear-gradient(135deg, #9932cc, #8a2be2); color: #ffffff; border-color: #4b0082; }
+        .malkuth { top: 720px; left: 330px; background: linear-gradient(135deg, #8b4513, #a0522d); color: #ffffff; border-color: #654321; }
+        
+        /* Paths */
+        .path {
+            position: absolute;
+            background: linear-gradient(90deg, rgba(255,215,0,0.6), rgba(255,215,0,0.3), rgba(255,215,0,0.6));
+            z-index: 1;
+        }
+        
+        /* Info panel */
+        .info-panel {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 400px;
+            max-height: 80vh;
+            background: rgba(0,0,0,0.9);
+            border: 2px solid #ffd700;
+            border-radius: 10px;
+            padding: 20px;
+            overflow-y: auto;
+            display: none;
+            z-index: 100;
+        }
+        
+        .info-panel h3 {
+            color: #ffd700;
+            margin-top: 0;
+            border-bottom: 1px solid #ffd700;
+            padding-bottom: 10px;
+        }
+        
+        .comparison-section {
+            margin-bottom: 15px;
+        }
+        
+        .comparison-section h4 {
+            color: #87ceeb;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .traditional { color: #90ee90; }
+        .agreement { color: #ffd700; }
+        .innovation { color: #ff6b6b; }
+        
+        .legend {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.8);
+            border: 1px solid #ffd700;
+            border-radius: 5px;
+            padding: 15px;
+            font-size: 12px;
+        }
+        
+        .legend h4 {
+            color: #ffd700;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        
+        .legend-item {
+            margin-bottom: 5px;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: #ffd700;
+            font-size: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>The Tree of Life: Traditional & Grimoire Interpretations</h1>
+        
+        <div class="tree-container">
+            <!-- Sephirot -->
+            <div class="sefira keter" data-sefira="keter">
+                <div class="sefira-name">KETER</div>
+                <div class="sefira-hebrew">כתר</div>
+            </div>
+            
+            <div class="sefira chokmah" data-sefira="chokmah">
+                <div class="sefira-name">CHOKMAH</div>
+                <div class="sefira-hebrew">חכמה</div>
+            </div>
+            
+            <div class="sefira binah" data-sefira="binah">
+                <div class="sefira-name">BINAH</div>
+                <div class="sefira-hebrew">בינה</div>
+            </div>
+            
+            <div class="sefira daat" data-sefira="daat">
+                <div class="sefira-name">DA'AT</div>
+                <div class="sefira-hebrew">דעת</div>
+            </div>
+            
+            <div class="sefira chesed" data-sefira="chesed">
+                <div class="sefira-name">CHESED</div>
+                <div class="sefira-hebrew">חסד</div>
+            </div>
+            
+            <div class="sefira gevurah" data-sefira="gevurah">
+                <div class="sefira-name">GEVURAH</div>
+                <div class="sefira-hebrew">גבורה</div>
+            </div>
+            
+            <div class="sefira tiferet" data-sefira="tiferet">
+                <div class="sefira-name">TIFERET</div>
+                <div class="sefira-hebrew">תפארת</div>
+            </div>
+            
+            <div class="sefira netzach" data-sefira="netzach">
+                <div class="sefira-name">NETZACH</div>
+                <div class="sefira-hebrew">נצח</div>
+            </div>
+            
+            <div class="sefira hod" data-sefira="hod">
+                <div class="sefira-name">HOD</div>
+                <div class="sefira-hebrew">הוד</div>
+            </div>
+            
+            <div class="sefira yesod" data-sefira="yesod">
+                <div class="sefira-name">YESOD</div>
+                <div class="sefira-hebrew">יסוד</div>
+            </div>
+            
+            <div class="sefira malkuth" data-sefira="malkuth">
+                <div class="sefira-name">MALKUTH</div>
+                <div class="sefira-hebrew">מלכות</div>
+            </div>
+        </div>
+        
+        <div class="info-panel" id="infoPanel">
+            <button class="close-btn" onclick="closePanel()">&times;</button>
+            <div id="infoContent"></div>
+        </div>
+        
+        <div class="legend">
+            <h4>Interpretation Guide</h4>
+            <div class="legend-item traditional">● Traditional Kabbalistic elements</div>
+            <div class="legend-item agreement">● Agreements/correspondences</div>
+            <div class="legend-item innovation">● Grimoire innovations/departures</div>
+            <p style="margin-top: 10px; font-size: 11px; opacity: 0.8;">Click any Sefira to explore detailed comparisons</p>
+        </div>
+    </div>
+
+    <script>
+        const sefiraInfo = {
+            keter: {
+                name: "Keter (Crown)",
+                traditional: "Divine will, the source of all emanation, pure potential beyond comprehension. Often associated with the Ancient of Days.",
+                agreement: "Both recognize Keter as supreme authority and source of will. The 'Crown' metaphor is consistent. Both acknowledge its role in unifying the entire system.",
+                innovation: "Multi-layered ontology (divine/angelic/infernal/fae/human). Specific archetypal figures like the Hierarch and Iron Tyrant. Constellation dynamics with other Sefirot producing specific synergies. Integration with Marie Laveau as human exemplar."
+            },
+            chokmah: {
+                name: "Chokmah (Wisdom)",
+                traditional: "Divine wisdom, the active masculine principle, the first flash of conscious thought emerging from Keter's will.",
+                agreement: "Both emphasize wisdom as dynamic insight and strategic understanding. The connection to inspired vision and divine logos is maintained.",
+                innovation: "Explicit connection to Sun Tzu and strategic thinking. The 'emergent connections' concept. Multi-realm manifestations including Mephistophelean trickery in infernal aspect."
+            },
+            binah: {
+                name: "Binah (Understanding)", 
+                traditional: "Divine understanding, the passive feminine principle that gives form to Chokmah's wisdom. Associated with the divine mother.",
+                agreement: "Both recognize Binah as the form-giving principle that provides structure and boundaries. The 'cosmic mother' attribution aligns with tradition.",
+                innovation: "Emphasis on mortality awareness and 'futility of unbounded zeal.' Integration with Egill Skallagrímsson saga. The specific focus on consequences and limits as teaching tools."
+            },
+            daat: {
+                name: "Da'at (Knowledge)",
+                traditional: "Hidden knowledge, the synthesis of Chokmah and Binah. Sometimes called the 'invisible Sefira' representing conscious knowledge.",
+                agreement: "Both recognize Da'at as synthesis and integration. The concept of hidden/revealed knowledge is maintained.",
+                innovation: "Emphasis on collective consensus and social reality. The 'Barakah' concept of aligned awareness. Connection to civilization-building and cultural knowledge. The Oppenheimer reference for forbidden knowledge."
+            },
+            chesed: {
+                name: "Chesed (Kindness)",
+                traditional: "Divine mercy and loving-kindness, unlimited giving and expansion. The right arm of God, pure benevolence.",
+                agreement: "Both emphasize unconditional giving and mercy. The concept of divine grace flows through both interpretations.",
+                innovation: "The 'vulnerability made power' concept. Psychic openness that grants access but doesn't force. The Witch Queen archetype. Specific relational dynamics requiring 'wholesale' giving."
+            },
+            gevurah: {
+                name: "Gevurah (Discipline)",
+                traditional: "Divine strength and judgment, restriction and discipline. The left arm of God, necessary limitation and justice.",
+                agreement: "Both recognize Gevurah as necessary boundaries and cosmic justice. The disciplinary aspect is consistent.",
+                innovation: "Focus on confronting self-delusion. The Iron Tyrant's restructuring of demon nature. Specific warnings about corruption of empathy. Integration with Martin Luther King Jr. as exemplar."
+            },
+            tiferet: {
+                name: "Tiferet (Glory)",
+                traditional: "Beauty and harmony, the heart center that balances all extremes. Often associated with the divine child or sacrificial king.",
+                agreement: "Both recognize Tiferet as harmonizing center and sacred heart. The beauty/harmony principle is maintained.",
+                innovation: "Emphasis on acting for others' wholeness and leadership development. The specific relational dynamic of trusting others to reciprocate care. Anne Frank as exemplar. The 'complete honesty and sacrifice' requirement."
+            },
+            netzach: {
+                name: "Netzach (Victory)",
+                traditional: "Divine endurance and eternity, the triumph of spirit over matter. Associated with prophecy and artistic inspiration.",
+                agreement: "Both emphasize endurance and spiritual triumph. The connection to eternal principles is maintained.",
+                innovation: "The 'tribal will to persist' concept. Establishment of permanent truth and objective baseline for humanity. Connection to fae immortality concepts. Muhammad as exemplar."
+            },
+            hod: {
+                name: "Hod (Splendor)",
+                traditional: "Divine splendor and intellectual glory, the power of rational thought and communication. Associated with prophecy and divine speech.",
+                agreement: "Both recognize Hod as intellectual clarity and divine communication. The emphasis on rational thought is consistent.",
+                innovation: "Specific focus on overcoming prejudice and cultural bias. The 'leap of faith' vs. cunning distinction. Emphasis on adaptation outside social norms. The gossip/manipulation shadow aspect."
+            },
+            yesod: {
+                name: "Yesod (Foundation)",
+                traditional: "The foundation of the manifest world, the channel between higher and lower realms. Associated with the lunar sphere and subconscious.",
+                agreement: "Both recognize Yesod as foundation and conduit between invisible and visible. The connection to psyche and instinct is maintained.",
+                innovation: "Emphasis on confronting reality vs. illusion. The 'objective baseline' concept for human definition. Connection to creative chronicle (Snorri Sturluson). The Ginnungagap/Ymir demon-wrath states."
+            },
+            malkuth: {
+                name: "Malkuth (Kingdom)",
+                traditional: "The manifest world, physical reality where all divine emanations culminate. The bride, the final receptacle of divine light.",
+                agreement: "Both recognize Malkuth as material manifestation and culmination point. The kingdom/sovereignty metaphor is consistent.",
+                innovation: "Distinction between power and freedom in social structures. Connection to current infrastructure and status quo. Each human as potential enactor of divine 'Kingdom.' The Iron Tyrant's Underworld domain."
+            }
+        };
+
+        function showInfo(sefira) {
+            const info = sefiraInfo[sefira];
+            const content = `
+                <h3>${info.name}</h3>
+                <div class="comparison-section">
+                    <h4>Traditional Kabbalah:</h4>
+                    <p class="traditional">${info.traditional}</p>
+                </div>
+                <div class="comparison-section">
+                    <h4>Areas of Agreement:</h4>
+                    <p class="agreement">${info.agreement}</p>
+                </div>
+                <div class="comparison-section">
+                    <h4>Grimoire Innovations:</h4>
+                    <p class="innovation">${info.innovation}</p>
+                </div>
+            `;
+            document.getElementById('infoContent').innerHTML = content;
+            document.getElementById('infoPanel').style.display = 'block';
+        }
+
+        function closePanel() {
+            document.getElementById('infoPanel').style.display = 'none';
+        }
+
+        // Add click listeners to all sefira
+        document.querySelectorAll('.sefira').forEach(sefira => {
+            sefira.addEventListener('click', function() {
+                showInfo(this.dataset.sefira);
+            });
+        });
+
+        // Close panel when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.info-panel') && !e.target.closest('.sefira')) {
+                closePanel();
+            }
+        });
+    </script>
+</body>
+</html>
